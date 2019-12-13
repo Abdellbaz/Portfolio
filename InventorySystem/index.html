@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="invetory system">
+  <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+  <meta name="author" content="Abdelaziz elbaze">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{text-align: center;}
+#canvas{ background-color: gray;height: 50vh;}
+</style>
+</head>
+<body>
+ <canvas id="canvas"></canvas>
+<br>
+<br>
+<button onclick="ItemList.push(this.name);UpdateUI();" name="Potato">Add potato</button>
+<button onclick="ItemList.push(this.name);UpdateUI();" name="Tomato">Add tomato</button>
+<button onclick="ItemList.push(this.name);UpdateUI();" name="Cheese">Add cheese</button>
+<br><br>
+<button onclick="Remove(this.name)" name="Potato">Remove potato</button>
+<button onclick="Remove(this.name)" name="Tomato">Remove tomato</button>
+<button onclick="Remove(this.name)" name="Cheese">Remove cheese</button>
+<br><br>
+<button onclick="Use(this.name)" name="Potato">Use potato</button>
+<button onclick="Use(this.name)" name="Tomato">Use tomato</button>
+<button onclick="Use(this.name)" name="Cheese">Use cheese</button>
+<br><br>
+<button onclick="ItemList.sort();UpdateUI();" >Sort inventory</button>
+<br><br><progress id="progress"value="0" max="100"></progress><br>
+<img id="ChangeImg"src="Cheese.png" alt="Cheese">
+<script>
+//UpdateUI() start  after everyting has loaded
+    window.onload = function() {UpdateUI();decreasePoint();}
+    const canvas = document.getElementById("canvas");
+    const ct = canvas.getContext("2d");
+    let ChangeImg = document.getElementById("ChangeImg");
+    let progress = document.getElementById("progress");
+    let currentTime=0;
+    let ItemList =[];
+    //preload img before use
+    let img = new Image();img.src ="Empty.png";
+    let cheese = new Image();cheese.src ="Cheese.png";cheese.alt="Cheese";
+    let tomato = new Image();tomato.src ="Tomato.png";tomato.alt="Tomato";
+    let potato = new Image();potato.src ="Potato.png";potato.alt="Potato";
+    var ImgList = [cheese,tomato,potato];
+
+//UpdateUI() draw the img on canvas
+function UpdateUI() {
+  ct.clearRect(0,0,canvas.width,canvas.height);
+  let total =-1;
+
+  for (x=0;x<5;x++){
+      for (y=0;y<11;y++){ total++;
+        img.src ="Empty.png";
+        ct.drawImage(img, 12+y*25, 12+x*25,20,20);
+        if (ItemList.length>total) { img.src =ItemList[total]+'.png';ct.drawImage(img, 12+y*25, 12+x*25,20,20);}
+    }}}
+
+
+//remove first item from list
+    function Remove(name) {
+      if(CheckItem(name) !=null){ItemList.splice(CheckItem(name), 1);UpdateUI();}}
+
+//check if item is in array list returrn index
+function CheckItem(name) {
+  for ( i in ItemList ) {
+      if (ItemList[i] === name)
+      { return i;break;}}}
+      //use ir=tem from inventory
+    function Use(name) {
+      if (ItemList[CheckItem(name)]==name) {
+        if (ChangeImg.alt==name) {DisplayImg(name);point(10);}
+        else {point(-10);}
+        Remove(name);}}
+
+//adding en removing point from progress bar
+function point(p) {
+  if ((progress.value>=0) &&(progress.value<progress.max)) { progress.value+=p; }}
+//display randomimg
+function DisplayImg(name) {
+   let num = Math.floor(Math.random() * (ImgList.length));
+   if (ImgList[num].alt==ChangeImg.alt) { DisplayImg(name);}
+   else{ ChangeImg.src=ImgList[num].src; ChangeImg.alt=ImgList[num].alt;}}
+// decreasePoint
+   function decreasePoint() {
+     currentTime++;
+     //console.log(currentTime);
+    if (progress.value>0 && currentTime>10){progress.value--;;currentTime=0;}
+    if (progress.value<progress.max) {requestAnimationFrame(decreasePoint);}
+
+   }
+
+</script>
+</body>
+</html>

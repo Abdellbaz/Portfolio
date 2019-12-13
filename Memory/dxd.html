@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="School">
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+    <meta name="author" content="Abdelaziz">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdelaziz Elbaze MG1D CardGame</title>
+<style>
+  body{text-align: center;margin:  0px auto;}
+#memory_board{
+
+	background: url(DXD/Go.png) no-repeat;
+	width:875px;
+	height:705px;
+	margin:  0px auto;
+    padding: 40px;
+
+}
+.card:hover {  background-color: #D82026;}
+.card{
+  background: url(DXD/gsymbol.png) no-repeat;
+border-radius: 12px;
+	width:110px;
+	height:140px;
+	float:left;
+	margin:10px;
+	cursor:pointer;
+
+}
+
+#start{
+	height: 78px;
+	width: 95px;
+  display: block;
+
+		margin:270px 350px auto;
+}
+#dxd{
+  border-radius: 12px;
+  width:110px;
+	height:140px;
+}
+h3{display: inline-block; margin:0px 0px auto;}
+
+</style>
+<script>
+function randomNummer(num) {
+return Math.floor(Math.random() * num);  }
+let score =0;
+var memory_array = ["RiasGremory.png","RiasGremory.png",
+  "AsiaArgento.png","AsiaArgento.png",
+  "AkenoHimejima.png","AkenoHimejima.png",
+  "ToujouKoneko.png","ToujouKoneko.png",
+  "Xenovia.png","Xenovia.png",
+  "IrinaShidou.png",  "IrinaShidou.png",
+  "Kuroka.png","Kuroka.png",
+  "Rossweisse.png","Rossweisse.png",
+  "TsubakiShinra.png","TsubakiShinra.png",
+  "SonaSitri.png","SonaSitri.png",
+  "Grayfia.png","Grayfia.png",
+  "Ophis.png","Ophis.png"
+];
+var memory_values = [];
+var memory_tile_ids = [];
+var tiles_flipped = 0;
+Array.prototype.memory_tile_shuffle = function(){
+    var i = this.length, j, temp;
+    while(--i > 0){
+        j = Math.floor(Math.random() * (i+1));
+        temp = this[j];
+        this[j] = this[i];
+        this[i] = temp;
+    }
+}
+
+
+
+function newBoard(){
+	tiles_flipped = 0;
+	var output = '';
+    memory_array.memory_tile_shuffle();
+	for(var i = 0; i < memory_array.length; i++){
+
+		output += '<div class="card" id="tile_'+i+'" onclick="memoryFlipTile(this,\''+memory_array[i]+'\')"></div>';
+
+	}
+	document.getElementById('memory_board').innerHTML = output;
+
+}
+function memoryFlipTile(tile,val){
+	if(tile.innerHTML == "" && memory_values.length < 2){
+    var col =  "rgb("
+    + randomNummer(255) + ","
+    + randomNummer(255) + ","
+    + randomNummer(255) + ")";
+		tile.style.background = col;
+		tile.innerHTML =  '<img id="dxd" src="DXD/'+val+'">';
+		if(memory_values.length == 0){
+			memory_values.push(val);
+			memory_tile_ids.push(tile.id);
+		} else if(memory_values.length == 1){
+			memory_values.push(val);
+			memory_tile_ids.push(tile.id);
+			if(memory_values[0] == memory_values[1]){
+				tiles_flipped += 2;
+				// Clear both arrays
+				memory_values = [];
+            	memory_tile_ids = [];
+				// Check to see if the whole board is cleared
+				if(tiles_flipped == memory_array.length){
+            score = score +1;
+        document.getElementById('score').innerHTML= score;
+					alert("DXD Game cleared  Turned "+score+" play Again");
+          score =0;
+        document.getElementById('score').innerHTML= score;
+					document.getElementById('memory_board').innerHTML = "";
+					newBoard();
+
+				}
+			} else {
+
+				function flip2Back(){
+
+				    // Flip the 2 tiles back over
+				    var tile_1 = document.getElementById(memory_tile_ids[0]);
+				    var tile_2 = document.getElementById(memory_tile_ids[1]);
+            var css = '.card:hover {  background-color: #D82026;}';
+				    tile_1.style.background = 'url(DXD/gsymbol.png) no-repeat';
+            tile_1.style=css;
+            	    tile_1.innerHTML = "";
+				    tile_2.style.background = 'url(DXD/gsymbol.png) no-repeat';
+            tile_2.style=css;
+            	    tile_2.innerHTML = "";
+				    // Clear both arrays
+				    memory_values = [];
+            	    memory_tile_ids = [];
+				}
+      score = score + 1;
+				setTimeout(flip2Back, 1000);
+       document.getElementById('score').innerHTML= score;
+			}
+		}
+	}
+}
+function music() {document.getElementById('myAudio').play();}
+
+</script>
+</head>
+<body>
+  <audio id="myAudio" src="DXD/dxd.mp3"></audio>
+
+  <h3>Turned</h3>
+  <h3 id="score">0</h3>
+<div id="memory_board"><button id="start">Start</button></div>
+
+<script>start.addEventListener('click',()=>{
+  document.getElementById('myAudio').play();
+  setInterval(music, 1081000);
+	newBoard();
+})</script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="School">
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+    <meta name="author" content="Abdelaziz">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdelaziz Elbaze MG1D</title>
+
+<style>
+#validator{text-align:center;margin:20px auto;}
+fieldset{
+    width: 400px;
+    margin:auto;
+}
+
+label:hover{background-color:orange;}
+label{
+    border-radius:5px;
+    transition-duration:0.4s;
+    background-color: white;
+    border:1px  solid Gray;
+    padding: 0.5em;
+    cursor: pointer;
+    color:black;
+    display: inline-block;
+    text-align: center;
+}
+form,input{text-align: center;}
+</style>
+<script>
+function ajax(height,weight) {
+  let debug = true;
+  if (window.XMLHttpRequest) { xmlhttp = new XMLHttpRequest(); }
+  else { xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+  let controlScript = "BMI.php";
+  let httpString = controlScript + "?weight=" + weight + "&height=" + height;
+  let httpResponse = "";
+  if(debug) console.log(httpString);
+  xmlhttp.open("GET", httpString, true);
+  xmlhttp.send();
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      if(debug) console.log("http response = " + xmlhttp.responseText);
+      httpResponse = xmlhttp.responseText;
+      document.getElementById('resultaat').innerHTML = httpResponse;
+}}
+}
+</script>
+</head>
+<body>
+<form >
+    <fieldset >
+<legend>Personal information:</legend>
+       <label><input type="radio" name="bmi" id="IMPERIAL" onclick="choose()" >IMPERIAL</label>
+        <label><input type="radio" name="bmi" id="METRIC" onclick="choose()">METRIC</label>
+      
+      <div id="form"></div>
+    <div id="resultaat"></div>
+    </fieldset>
+</form>
+<div id="validator">
+  <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2F24916.hosts.ma-cloud.nl%2Fbewijzenmap%2Fperiode1.1%2Fbap%2Fbmi%2FBMI.html" target="_blank"><img alt="Valide HTML5" src="http://blog.boyet.com/blog/files/media/image/valid-html5-blue.png"></a> <a href="https://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2F24916.hosts.ma-cloud.nl%2Fbewijzenmap%2Fperiode1.1%2Fbap%2Fbmi%2FBMI.html" target="_blank"><img alt="Valide CSS" src="http://jigsaw.w3.org/css-validator/images/vcss-blue.gif"></a>
+</div>
+<script>
+const form = document.getElementById('form');
+const result = document.getElementById('resultaat');
+let height;
+let weight;
+function make() {
+let i = document.getElementById('IMPERIAL').checked;
+let m  = document.getElementById('METRIC').checked;
+if (m==true) {
+  height = Number(document.getElementById('height_cm').value);
+  weight = Number(document.getElementById('weight_kg').value);}
+  else if (i==true) {
+  height = Number(document.getElementById('height_ft').value)/0.032808+Number(document.getElementById('height_in').value)/0.39370;
+  weight = Number(document.getElementById('weight_lb').value)/2.2046;}
+  ajax(height, weight);}
+
+
+function choose(){
+result.innerHTML="";
+let i = document.getElementById('IMPERIAL').checked;
+let m  = document.getElementById('METRIC').checked;
+switch (true) {
+  case i:console.log(form); form.innerHTML='Height:<br><input id="height_ft" oninput="make()" type="number" placeholder="3.24 ft"><input id="height_in" oninput="make()" type="number" placeholder="28 in"><br>Weight:<br><input id="weight_lb" oninput="make()" type="number" placeholder="154 lb">';break;
+  case m:console.log(form); form.innerHTML='Height:<br><input id="height_cm" oninput="make()" type="number" placeholder="170 cm"><br>Weight:<br><input id="weight_kg" oninput="make()" type="number" placeholder="70 kg">';break;
+  default:}}
+
+</script>
+
+</body>
+</html>

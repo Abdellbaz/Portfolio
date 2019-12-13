@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>memory</title>
+  </head>
+  <body>
+    <div id="container">
+
+    </div>
+    <script charset="utf-8">
+const container = document.getElementById('container');
+const ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K',"A"];
+const suites = ['D','H','S','C'];
+let tile = [];
+let tileClass = [];
+let totalLenght =ranks.length*4;
+let counter=0;
+let img = new Image(90, 90);
+
+
+
+for (var i = 0; i < ranks.length; i++) {
+  for (var j = 0; j < suites.length; j++) {
+ img = new Image(90, 90);
+img.src="Images/red_back.png";
+img.id = ranks[i]+suites[j];
+img.className = ranks[i]+suites[j]+'0';
+img.onclick = info;
+container.appendChild(img);
+ img = new Image(90, 90);
+img.src="Images/red_back.png";
+img.id = ranks[i]+suites[j];
+img.className = ranks[i]+suites[j]+'1';
+img.onclick = info;
+container.appendChild(img);
+
+}}
+
+
+function info() {
+// //alert('The id of the element you clicked: ' + this.id);
+// console.log('----------------------');
+// console.log("ID "+this.id);
+// console.log("CLASS "+this.className);
+// console.log("SRC "+this.src.split("red_back.png")[0]);
+// console.log('----------------------');
+//this.src.split("/").pop().split(".")[0]=="red_back"
+console.log(this.attributes.src.value);
+if (this.attributes.src.value=="Images/red_back.png") {
+
+if (tile.length<2) { tileClass.push(this.className);tile.push(this.id);
+this.src='Images/'+this.id+'.png';console.log(tile.length);}
+
+if (tile.length==2) {
+  if (tile[0]==tile[1]) {console.log('goed');score();}
+  else {console.log('fout');setTimeout(flip,1000);}}
+
+}}
+function score() {
+  counter+=2;
+  if (counter==totalLenght) {
+    console.log('gameCleared');
+  }console.log("C"+counter);
+
+  console.log(totalLenght);
+  tile=[];tileClass =[];
+}
+function flip(){
+  document.getElementsByClassName(tileClass[0])[0].src="Images/red_back.png";
+  document.getElementsByClassName(tileClass[1])[0].src="Images/red_back.png";
+  tile=[];
+  tileClass =[];
+}
+
+
+
+</script>
+  </body>
+</html>

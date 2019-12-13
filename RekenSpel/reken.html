@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			Abdelaziz Elbaze
+		</title>
+		<meta charset="UTF-8">
+		<meta content="Abdelaziz Web" name="description">
+		<meta content="HTML,CSS,XML,JavaScript" name="keywords">
+		<meta content="Abdelaziz Elbaze" name="author">
+		<style>
+		#s1,#score{display:inline;}
+		#l1,#lvl{display:inline;}
+		@font-face {font-family:'chalk';src: url('fonts/chalk.ttf') format('truetype');}
+		#check{height: 100px;width: 100px; }
+		#wrapper{text-align: center;
+		 border: 1px solid black;
+	padding: 20px;
+font-size: 20px;}
+		body{
+  display: flex;
+  align-items: center;
+  justify-content: center }
+	#head{font-size: 40px}
+    </style>
+  <body>
+
+<section id="wrapper">
+	<section id="head">Rekenen</section><br>
+	<section id="l1">LVL </section><section id="lvl"></section>
+	<section id="s1">Score </section><section id="score"></section><br>
+  <section id="mijnvraag">mijnvraag</section>
+  <input type="text" id="antwoord" autofocus onkeypress="keyPressed(event)"><br>
+<img id="check" src="non.png" alt="plaatje werkt niet">
+</section>
+
+
+
+  <script type="text/javascript">
+    const wrapper = document.getElementById('wrapper');
+    const mijnvraag = document.getElementById('mijnvraag');
+    const antwoord = document.getElementById('antwoord');
+    const check = document.getElementById('check');
+		const score = document.getElementById('score');
+		const lvl = document.getElementById('lvl');
+
+  function display() {
+    var a = Math.floor(Math.random()*9+1);
+    var b = Math.floor(Math.random()*num+1);
+		vraag = a*b;
+    mijnvraag.innerHTML = a + " x " +b+" = ?";
+		mijnvraag.style.fontFamily = 'chalk';
+		antwoord.style.fontFamily = 'chalk';
+    antwoord.focus();
+  }
+
+	function keyPressed(event) {
+			   var key = event.which || event.keyCode;
+	    if ((key == 13)&&(antwoord.value != "")) {
+				if (vraag== antwoord.value)
+				{ check.src="goed.png"; sound.src ='win.mp3'; p=p+10;}
+	      else {check.src="Fout.png"; sound.src ='lose.mp3';(p>=5) ? p=p-5: p=0;}
+				sound.play();
+				gameLvl();
+				score.innerHTML =p;
+				lvl.innerHTML =l;
+	    window.setTimeout(wait,2000);
+	    }
+	  }
+		function gameLvl() {if (p>=100) {l=l+1;p=0;}else {}switch (l) {
+			case 1: num =3; break;
+			case 2: num =4; break;
+			case 3: num =5; break;
+			case 4: num =6; break;
+			case 5: num =7; break;
+			case 6: num =8; break;
+			case 7: num =9; break;
+			default:break;
+
+		}}
+
+    function wait() {
+      check.src="non.png";
+      antwoord.value ="";
+      display();
+
+    }
+
+sound = new Audio();
+num =2;
+l=0;
+p=0;
+wait();
+
+
+    </script>
+		  </body>
+</html>

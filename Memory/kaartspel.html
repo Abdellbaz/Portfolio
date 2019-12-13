@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="School">
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+    <meta name="author" content="Abdelaziz">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdelaziz Elbaze MG1D CardGame</title>
+    <style>
+      body{text-align: center;margin:  0px auto;}
+    #memory_board{
+    	background: url(images/grid.png) no-repeat;background-size: 100% 95%;
+    	width:1540px;height:1000px;
+    	margin:  0px auto;padding: 10px;}
+
+    .card:hover { background-color: #D82026;}
+    .card{
+      background: url(images/red_back.png) no-repeat; background-size: 90px 90px;
+      border: 2px solid black;
+    	width:90px;height:90px;
+    	float:left;	margin:12px;
+    	cursor:pointer;}
+
+    #start{
+    	height: 78px;	width: 95px;
+      display: block;margin:0 auto;}
+    #dxd{width:100%;height:100%;}
+    h3{display: inline-block; margin:0px 0px auto;}
+
+    </style>
+    <script>
+
+    function randomNummer(num) {
+    return Math.floor(Math.random() * num);  }
+    var score =0;
+    var memory_values = [];
+    var memory_tile_ids = [];
+    var tiles_flipped = 0;
+    var memory_array = ["2C","2C","2D","2D","2H","2H","2S","2S",
+    "3C","3C","3D","3D","3H","3H","3S","3S","4C","4C","4D","4D",
+    "4H","4H","4S","4S","5C","5C","5D","5D","5H","5H","5S","5S",
+    "6C","6C","6D","6D","6H","6H","6S","6S","7C","7C","7D","7D",
+    "7H","7H","7S","7S","8C","8C","8D","8D","8H","8H","8S","8S",
+    "9C","9C","9D","9D","9H","9H","9S","9S","10C","10C","10D","10D",
+    "10H","10H","10S","10S","AC","AC","AD","AD","AH","AH",
+    "AS","AS","JC","JC","JD","JD","JH","JH","JS","JS","KC","KC",
+    "KD","KD","KH","KH","KS","KS","QC","QC","QD","QD","QH","QH","QS","QS"];
+
+// Array.prototype.memory_tile_shuffle = function(){
+//     var i = this.length, j, temp;
+//     while(--i > 0){
+//         j = Math.floor(Math.random() * (i+1));
+//         temp = this[j];
+//         this[j] = this[i];
+//         this[i] = temp;
+//     }
+// }
+
+
+// tiles_flipped = 0;
+// var output = '';
+function newBoard(){
+  var score =0;
+  var memory_values = [];
+  var memory_tile_ids = [];
+  var tiles_flipped = 0;
+  var output = '';
+  //memory_array.memory_tile_shuffle();
+	for(var i = 0; i < memory_array.length; i++){	output += '<div class="card" id="tile_'+i+'" onclick="memoryFlipTile(this,\''+memory_array[i]+'\')"></div>';}
+	document.getElementById('memory_board').innerHTML = output;}
+
+function memoryFlipTile(tile,val){
+	if(tile.innerHTML == "" && memory_values.length < 2){ tile.innerHTML =  '<img id="dxd" src="images/'+val+'.png">';
+	if(memory_values.length == 0){ memory_values.push(val); memory_tile_ids.push(tile.id);}
+  else if(memory_values.length == 1){ memory_values.push(val); memory_tile_ids.push(tile.id);
+	if(memory_values[0] == memory_values[1]){ tiles_flipped += 2; memory_values = [];memory_tile_ids = []; gameCleared();}
+  else {score = score + 1; setTimeout(flip2Back, 1000); document.getElementById('score').innerHTML= score;}
+		}
+	}
+}
+function gameCleared() {
+  if(tiles_flipped == memory_array.length){
+      score = score +1;
+  document.getElementById('score').innerHTML= score;
+    alert(" Game cleared  Turned "+score+" play Again");
+    score =0;
+  document.getElementById('score').innerHTML= score;
+    document.getElementById('memory_board').innerHTML = "";
+    newBoard();}}
+function flip2Back(){
+    var tile_1 = document.getElementById(memory_tile_ids[0]);
+    var tile_2 = document.getElementById(memory_tile_ids[1]);
+    var css = '.card:hover {  background-color: #D82026;}';
+    tile_1.style.background = 'url(images/red_back.png) no-repeat';
+    tile_1.style=css;
+          tile_1.innerHTML = "";
+    tile_2.style.background = 'url(images/red_back.png) no-repeat';
+    tile_2.style=css;
+          tile_2.innerHTML = "";
+    // Clear both arrays
+    memory_values = [];
+   memory_tile_ids = [];
+}
+function music() {document.getElementById('myAudio').play();}
+
+</script>
+</head>
+<body>
+  <audio id="myAudio" src="DXD/dxd.mp3"></audio>
+
+  <h3>Turned</h3>
+  <h3 id="score">0</h3>
+<div id="memory_board"><button id="start">Start</button></div>
+
+<script>start.addEventListener('click',()=>{//document.getElementById('myAudio').play(); setInterval(music, 1081000);
+ newBoard();})</script>
+
+</body>
+</html>
